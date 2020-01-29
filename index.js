@@ -1,9 +1,7 @@
 var {spawn} = require('child_process')
 var fs = require('fs')
 var path = require('path')
-
-var gitClone ="https://github.com/lakshyabatman/react-starter-boilerplate.git"
-
+const {gitClone,reduxPlugins,fileNames} = require('./values')
 const CloneRepo = () =>{
     return new Promise((resolve,reject) => {
         var child = spawn('git', ["clone", gitClone])
@@ -12,7 +10,32 @@ const CloneRepo = () =>{
         })
     })
 }
+const addRedux = () => {
+    return new Promise((resolve,reject) => { 
+        var child = spawn("npm",["install",...reduxPlugins])
+        child.stdout.on("error" ,(err) => {
+            reject(err)
+        })
+        child.stdout.on("close",() => {
+            resolve()
+        })
+    })
+}
 
+const updateRepoForRedux = () => {
+    return new Promise((resolve,reject) => {
+
+        process.chdir(path.join(__dirname , process.argv[3],'/src/'))
+        fs.mkdir("store",()=> {
+            process.chdir(path.join(process.cwd(),"store"))
+            fs.writeFile("actions.js","",function(err,data) {
+                fs.writeFile("reducers.js","",function(err,data){
+                    resolve()
+                })
+            })
+        })
+    })
+}
 const ReadFiles = () => {
     return new Promise((resolve,reject) => {
         fs.readdir(__dirname,(err,filenames)=>{
@@ -48,7 +71,7 @@ const RenameFolder = () =>{
 
 const InstallDepencies = () => {
     return new Promise((resolve,reject) => {
-        process.chdir(path.join("./" , process.argv[3]))
+        process.chdir(path.join(__dirname , process.argv[3]))
         var child = spawn('npm', ["install"])
         
         // child.stdout.on("data", (data) => {
@@ -63,5 +86,7 @@ const InstallDepencies = () => {
 module.exports = {
     CloneRepo,
     RenameFolder,
-    InstallDepencies
+    InstallDepencies,
+    addRedux,
+    updateRepoForRedux
 }

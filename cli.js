@@ -5,7 +5,7 @@ const colors = require('colors')
 const showBanner = require('node-banner')
 const program = require('commander')
 const ora = require('ora')
-const { CloneRepo, RenameFolder,InstallDepencies} = require('./index')
+const { CloneRepo, RenameFolder,InstallDepencies,addRedux,updateRepoForRedux} = require('./index')
 var questions = [
     {type:'list',name:'initRedux',message:colors.green('Do you want to install redux as well'),choices:['yes','no']},
 ]
@@ -20,9 +20,7 @@ const Setup = async () => {
         inquirer
             .prompt(questions)
             .then((answer) => {
-                if(answer.initRedux){
-                    // Install Redux 
-                }
+                
                 var spinner = ora("Installing React").start()
                 CloneRepo()
                 .then(() => {
@@ -34,6 +32,22 @@ const Setup = async () => {
                         .then(() => {
                             spinner.stop()
                             console.log(colors.blue("Succesfullly installed your React application \n"))
+                            if(answer.initRedux === "yes"){
+                                spinner = ora("Installing Redux").start()
+                                spinner.spinner = "monkey"
+                                addRedux()
+                                .then(() => {
+                                    updateRepoForRedux()
+                                    .then(()=> {
+                                        spinner.stop()
+                                        console.log(colors.bgYellow("Installed Redux!"))
+                                    })
+                                })
+                                .catch((err) => {
+                                    console.err(err)
+                                    process.exit(1)
+                                })
+                            }
                         })
                     })
                     .catch((err) => {
