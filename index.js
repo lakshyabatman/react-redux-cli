@@ -1,6 +1,7 @@
 var {spawn} = require('child_process')
 var fs = require('fs')
 var path = require('path')
+const {reduxSnippet}= require('./snippets')
 const {gitClone,reduxPlugins,fileNames} = require('./values')
 const CloneRepo = () =>{
     return new Promise((resolve,reject) => {
@@ -22,19 +23,43 @@ const addRedux = () => {
     })
 }
 
+const moveFile =  (file, dir2,callback)=>{
+    //gets file name and adds it to dir2
+    var f = path.basename(file);
+    var dest = path.resolve(dir2, f);  
+    fs.rename(file, dest, callback);
+  };
+
 const updateRepoForRedux = () => {
     return new Promise((resolve,reject) => {
-
+        process.chdir(path.resolve(__dirname,'../'))
+        var actionFile = fs.readFileSync('./redux-files/actions.js').toString()
+        var reducerFile = fs.readFileSync('./redux-files/reducers.js').toString()
         process.chdir(path.join(__dirname , process.argv[3],'/src/'))
-        fs.mkdir("store",()=> {
-            process.chdir(path.join(process.cwd(),"store"))
-            fs.writeFile("actions.js","",function(err,data) {
-                fs.writeFile("reducers.js","",function(err,data){
-                    resolve()
-                })
-            })
+        fs.mkdir("store",()=>{
+            fs.writeFileSync(path.resolve(process.cwd(),"./store/actions.js"),actionFile)
+            fs.writeFileSync(path.resolve(process.cwd(),'./store/reducers.js'),reducerFile)
+            let filename = "index.js"
+            try {
+                let content = fs.readFileSync(process.cwd() + "/" + filename).toString()
+                content = content.split("\n")
+                content.splice(6,0,reduxSnippet)
+                fs.writeFileSync(process.cwd() + "/" + filename,content.join("\n"))
+                resolve()
+            }catch(e) {
+                console.log(e)
+                reject()
+            }
+
+
+
+
+            
         })
+        
+
     })
+    // We need to move files from redux-files to store folder while we stay at src directory then update index
 }
 const ReadFiles = () => {
     return new Promise((resolve,reject) => {
