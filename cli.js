@@ -44,6 +44,7 @@ const Setup = async () => {
                                     })
                                 })
                                 .catch((err) => {
+                                    spinner.stop()
                                     console.err(err)
                                     process.exit(1)
                                 })
