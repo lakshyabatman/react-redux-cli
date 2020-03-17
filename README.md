@@ -1,11 +1,16 @@
-# React-Redux-cli
-A lightning fast setup to automate your react redux application installation.
-With simple cli, you can now install react, react-redux and react with routing application without writing any code.
-**Installation**
+# React-redux-cli
 
- - Clone the repo.
- - `chmod 777 ./lib/main.js`
- - `./lib/main.js init <your-appname>`
- 
- That's it! :D
- Feel free to contribute and make sure to star the repo.
+A lightning setup to automate your react redux application installation.
+The react redux cli, is a simple yet powerful cli, which let user skip the boilerplate hell of react and redux, by building and installing react-redux application with my simple command.
+
+The CLI is free of long commands, it only prompts simple options for user to select.
+
+### Installation
+-   Clone the repo.
+- <code>npm install</code>
+-   `chmod 777 ./lib/main.js`
+-   `./lib/main.js init <your-appname>`
+
+That's it! 🎉
+
+Feel free to fork and contribute!
