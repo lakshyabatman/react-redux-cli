@@ -19,46 +19,62 @@ const Setup = async () => {
     .action(function(){
         inquirer
             .prompt(questions)
-            .then((answer) => {
-                
+            .then(async (answer) => {
                 var spinner = ora("Installing React").start()
-                CloneRepo()
-                .then(() => {
+                // CloneRepo()
+                // .then(() => {
+                //     spinner.text="Installing dependencies"
+                //     spinner.spinner = "moon"
+                //     RenameFolder()
+                //     .then(()=> {
+                //         InstallDepencies()
+                //         .then(() => {
+                //             spinner.stop()
+                //             console.log(colors.blue("Succesfullly installed your React application \n"))
+                //             if(answer.initRedux === "yes"){
+                //                 spinner = ora("Installing Redux").start()
+                //                 spinner.spinner = "monkey"
+                //                 addRedux()
+                //                 .then(() => {
+                //                     updateRepoForRedux()
+                //                     .then(()=> {
+                //                         spinner.stop()
+                //                         console.log(colors.bgYellow("Installed Redux!"))
+                //                     })
+                //                 })
+                //                 .catch((err) => {
+                //                     spinner.stop()
+                //                     console.err(err)
+                //                     process.exit(1)
+                //                 })
+                //             }
+                //         })
+                //     })
+                //     .catch((err) => {
+                //         console.error(err)
+                //         process.exit(1)
+                //     })
+                // })
+                try {
+                    await CloneRepo()
                     spinner.text="Installing dependencies"
                     spinner.spinner = "moon"
-                    RenameFolder()
-                    .then(()=> {
-                        InstallDepencies()
-                        .then(() => {
-                            spinner.stop()
-                            console.log(colors.blue("Succesfullly installed your React application \n"))
-                            if(answer.initRedux === "yes"){
-                                spinner = ora("Installing Redux").start()
-                                spinner.spinner = "monkey"
-                                addRedux()
-                                .then(() => {
-                                    updateRepoForRedux()
-                                    .then(()=> {
-                                        spinner.stop()
-                                        console.log(colors.bgYellow("Installed Redux!"))
-                                    })
-                                })
-                                .catch((err) => {
-                                    spinner.stop()
-                                    console.err(err)
-                                    process.exit(1)
-                                })
-                            }
-                        })
-                    })
-                    .catch((err) => {
-                        console.error(err)
-                        process.exit(1)
-                    })
-                })
-                
-                
-                
+                    await RenameFolder();
+                    await InstallDepencies();
+                    spinner.stop();
+                    console.log(colors.blue("Succesfullly installed your React application \n"))
+                    if(answer.initRedux === 'yes') {
+                        spinner = ora("Installing Redux").start()
+                        spinner.spinner = "monkey"
+                        await addRedux()
+                        await updateRepoForRedux()
+                        spinner.stop();
+                        console.log(colors.bgYellow("Installed Redux!"))
+                    }
+                }catch(err) {
+                    console.log(err);
+                    process.exit(1);
+                }                
             })
 
     })

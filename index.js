@@ -1,15 +1,18 @@
-var {spawn} = require('child_process')
+var {spawn, spawnSync} = require('child_process')
 var fs = require('fs')
 var path = require('path')
 const {reduxSnippet}= require('./snippets')
 const {gitClone,reduxPlugins} = require('./values')
 const CloneRepo = () =>{
     return new Promise((resolve,reject) => {
-        var child = spawn('git', ["clone", gitClone])
-        child.stdout.on("close",() => {
-            resolve()
-        })
+        try {
+            var child = spawnSync('git', ["clone", gitClone])
+            resolve();
+        }catch(err) {
+            reject(err)
+        }
     })
+
 }
 const addRedux = () => {
     return new Promise((resolve,reject) => { 
