@@ -21,40 +21,6 @@ const Setup = async () => {
             .prompt(questions)
             .then(async (answer) => {
                 var spinner = ora("Installing React").start()
-                // CloneRepo()
-                // .then(() => {
-                //     spinner.text="Installing dependencies"
-                //     spinner.spinner = "moon"
-                //     RenameFolder()
-                //     .then(()=> {
-                //         InstallDepencies()
-                //         .then(() => {
-                //             spinner.stop()
-                //             console.log(colors.blue("Succesfullly installed your React application \n"))
-                //             if(answer.initRedux === "yes"){
-                //                 spinner = ora("Installing Redux").start()
-                //                 spinner.spinner = "monkey"
-                //                 addRedux()
-                //                 .then(() => {
-                //                     updateRepoForRedux()
-                //                     .then(()=> {
-                //                         spinner.stop()
-                //                         console.log(colors.bgYellow("Installed Redux!"))
-                //                     })
-                //                 })
-                //                 .catch((err) => {
-                //                     spinner.stop()
-                //                     console.err(err)
-                //                     process.exit(1)
-                //                 })
-                //             }
-                //         })
-                //     })
-                //     .catch((err) => {
-                //         console.error(err)
-                //         process.exit(1)
-                //     })
-                // })
                 try {
                     await CloneRepo()
                     spinner.text="Installing dependencies"

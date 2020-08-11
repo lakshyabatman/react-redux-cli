@@ -48,7 +48,7 @@ const moveFile =  (file, dir2,callback)=>{
 
 const updateRepoForRedux = () => {
     return new Promise((resolve,reject) => {
-        process.chdir(path.join(__dirname , process.argv[3]))
+        //process.chdir(path.join(process.cwd(), process.argv[3]))
         var actionFile = fs.readFileSync('./redux-files/actions.js').toString()
         var reducerFile = fs.readFileSync('./redux-files/reducers.js').toString()
         process.chdir(path.join(process.cwd(),'/src'))
@@ -72,7 +72,7 @@ const updateRepoForRedux = () => {
 }
 const ReadFiles = () => {
     return new Promise((resolve,reject) => {
-        fs.readdir(__dirname,(err,filenames)=>{
+        fs.readdir(process.cwd(),(err,filenames)=>{
             if(err || filenames.indexOf('react-starter-boilerplate')===-1) {
                 reject()
             }else {
@@ -105,7 +105,7 @@ const RenameFolder = () =>{
 
 const InstallDepencies = () => {
     return new Promise((resolve,reject) => {
-        process.chdir(path.join(__dirname , process.argv[3]))
+        process.chdir(path.join(process.cwd() , process.argv[3]))
         var child = spawn('npm', ["install"])
         child.stdout.on("close",() =>{
             resolve()
