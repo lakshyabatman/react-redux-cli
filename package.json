@@ -2,7 +2,7 @@
   "name": "node_playground",
   "version": "1.0.0",
   "description": "",
-  "main": "lib/main.js",
+  "main": "bin/main.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
@@ -12,8 +12,14 @@
   "dependencies": {
     "colors": "^1.4.0",
     "commander": "^4.1.0",
+    "dotenv": "^8.2.0",
     "inquirer": "^7.0.4",
     "node-banner": "^1.4.0",
     "ora": "^4.0.3"
+  },
+  "devDependencies": {
+    "eslint": "^7.7.0",
+    "eslint-config-prettier": "^6.11.0",
+    "prettier": "2.1.1"
   }
 }
